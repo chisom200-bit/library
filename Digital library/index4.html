@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Web-Based Library</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts for Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            color: #2d3748;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/subtle-dots.png');
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #1e3a8a !important;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand i {
+            margin-right: 10px;
+        }
+        .nav-link {
+            color: #4b5563;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 0 10px;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+            background-color: #3b82f6;
+        }
+        .navbar-nav {
+            margin: 0 auto;
+        }
+        .book-card {
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block !important;
+            min-height: 320px;
+        }
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .accordion-button {
+            font-weight: 600;
+            background-color: #f1f5f9;
+            color: #1e3a8a;
+            border-left: 4px solid transparent;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            border-left: 4px solid #3b82f6;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+        .search-form {
+            max-width: 700px;
+            margin: 40px auto;
+            position: relative;
+        }
+        .search-loading {
+            display: none;
+            position: absolute;
+            right: 150px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            border-color: #6b7280;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+            border-color: #4b5563;
+        }
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .footer {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .footer a {
+            color: #bfdbfe;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #ffffff;
+        }
+        .badge-category {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .roadmap-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .carousel-inner .carousel-item iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+        .book-pagination .page-item.active .page-link {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .book-carousel {
+            transition: transform 0.5s ease;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            display: none;
+            z-index: 1000;
+        }
+        /* Chatbot Styles */
+        .chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1200;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .chatbot-button:hover {
+            transform: scale(1.1);
+        }
+        .chatbot-window {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            min-height: 300px;
+            max-height: 500px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1200;
+            overflow: hidden;
+        }
+        .chatbot-header {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chatbot-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+        .chatbot-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .chatbot-message.user {
+            background: #dbeafe;
+            margin-left: 20%;
+            text-align: right;
+        }
+        .chatbot-message.bot {
+            background: #e5e7eb;
+            margin-right: 20%;
+        }
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background: #ffffff;
+            border-top: 1px solid #e5e7eb;
+        }
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        .chatbot-input button {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .chatbot-input button:hover {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+        section {
+            padding: 60px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .mt-6 {
+            margin-top: 3rem !important;
+        }
+        .mb-6 {
+            margin-bottom: 3rem !important;
+        }
+        .py-6 {
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .carousel-inner .carousel-item iframe {
+                height: 250px;
+            }
+            .book-card {
+                margin-bottom: 20px;
+            }
+            .nav-link {
+                margin: 5px 0;
+            }
+            .chatbot-window {
+                width: 90%;
+                bottom: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#home"><i class="fas fa-book-open"></i>Digital Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#books">Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal" href="#">Login</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#signupModal" href="#">Signup</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Home Section -->
+<section id="home" class="py-6">
+    <div class="hero">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Welcome to the Digital Web-Based Library</h1>
+            <p class="lead mb-6">Explore a world of knowledge with our curated collection of free educational resources. From robotics to AI, our library empowers learners to excel in technology fields in 2025 and beyond.</p>
+            <a href="#books" class="btn btn-light btn-lg" data-bs-toggle="tooltip" title="Browse our collection">Explore Books Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-6 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-6">Why Choose Our Library?</h2>
+        <p class="lead mb-4">Our platform is designed to provide a seamless learning experience with curated content, interactive tools, and a community-driven approach to education.</p>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-books fa-3x mb-3 text-primary"></i>
+                        <h4 class="card-title">Comprehensive Collection</h4>
+                        <p class="card-text">Access a wide range of books, videos, and roadmaps across Robotics, Programming, UI/UX, and more, tailored for all skill levels.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-download fa-3x mb-3 text-primary"></i>
+                        <h4 class="card-title">Free Resources</h4>
+                        <p class="card-text">Download PDFs or explore external links to deepen your knowledge, all freely available for educational use.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-user-lock fa-3x mb-3 text-primary"></i>
+                        <h4 class="card-title">Personalized Learning</h4>
+                        <p class="card-text">Create an account to track progress, save favorites, and receive tailored recommendations (coming soon).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-video fa-3x mb-3 text-primary"></i>
+                        <h4 class="card-title">Video Tutorials</h4>
+                        <p class="card-text">Learn from top YouTubers with curated video content to complement your reading.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section id="search" class="py-6">
+    <div class="container text-center">
+        <h2 class="mb-4">Search Our Library</h2>
+        <p class="lead mb-4">Quickly find resources by searching for titles, categories, or keywords. Our intelligent search ensures you discover the right content.</p>
+        <form class="search-form">
+            <div class="input-group mb-3 position-relative">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search for books by title, category, or keyword..." aria-label="Search books">
+                <button class="btn btn-primary" type="button" onclick="searchBooks()" data-bs-toggle="tooltip" title="Search library"><i class="fas fa-search me-2"></i>Search</button>
+                <button class="btn btn-secondary" type="button" onclick="clearSearch()" data-bs-toggle="tooltip" title="Clear search"><i class="fas fa-times me-2"></i>Clear</button>
+                <div class="spinner-border text-primary search-loading" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </form>
+        <p class="text-muted">Try keywords like 'Python', 'Robotics', or 'Machine Learning' to explore our collection.</p>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-6 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">About Us</h2>
+        <p class="lead mb-4">The Digital Web-Based Library is your gateway to free, high-quality educational resources in technology and beyond. Our mission is to empower learners worldwide by providing accessible, curated content.</p>
+        <p>We offer a rich collection of books, video tutorials, and visual roadmaps across fields like AI, robotics, and data science. Our platform is built for learners at all levels, from beginners to professionals, with tools to track progress and engage with a global community.</p>
+        <p>Join us in 2025 to stay ahead in the fast-evolving tech landscape. Contribute, learn, and grow with our community-driven approach to education!</p>
+    </div>
+</section>
+
+<!-- Books Section -->
+<section id="books" class="py-6">
+    <div class="container text-center">
+        <h1 class="mb-4">Our Books Collection</h1>
+        <p class="lead mb-5">Discover our extensive collection of free books, complemented by expert-led video tutorials and detailed learning roadmaps. Each category is designed to guide you from beginner to advanced proficiency.</p>
+        <div class="mb-4">
+            <label for="categoryFilter" class="form-label">Filter by Category:</label>
+            <select id="categoryFilter" class="form-select w-auto d-inline-block" onchange="filterCategory()">
+                <option value="all">All Categories</option>
+                <option value="robotics">Robotics</option>
+                <option value="programming">Programming</option>
+                <option value="uiux">UI/UX Design</option>
+                <option value="machineLearning">Machine Learning</option>
+                <option value="dataScience">Data Science</option>
+                <option value="webDevelopment">Web Development</option>
+                <option value="ai">Artificial Intelligence</option>
+            </select>
+        </div>
+        <div class="accordion" id="booksAccordion">
+            <div class="accordion-item" id="roboticsSection">
+                <h2 class="accordion-header" id="roboticsHeading">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#roboticsCollapse" aria-expanded="true" aria-controls="roboticsCollapse">
+                        Robotics <span class="badge-category ms-2">4 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="roboticsCollapse" class="accordion-collapse collapse show" aria-labelledby="roboticsHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Robotics blends engineering and computer science to create intelligent machines. Explore foundational concepts, control systems, and practical applications with our curated resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://s3.amazonaws.com/thumbnails.venngage.com/template/0df1c65c-d271-4d1e-aafa-1c3a54626a0a.png" alt="Robotics Learning Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="roboticsVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/1qa41JLgx-M" title="Robotics Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>James Bruton - DIY Robotics</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/8aY3uI2GccA" title="MIT Robotics Lecture" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>MIT OpenCourseWare - Robotics Basics</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#roboticsVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#roboticsVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="roboticsBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Modern Robotics</h5>
+                                        <p class="card-text">A comprehensive guide to robotics mechanics, kinematics, and control systems, perfect for beginners and intermediate learners.</p>
+                                        <a href="https://hades.mech.northwestern.edu/images/7/7f/MR.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.robotics.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more robotics resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">The Robotics Primer</h5>
+                                        <p class="card-text">An accessible introduction to robotics history, concepts, and applications, ideal for those new to the field.</p>
+                                        <a href="https://pages.ucsd.edu/~ehutchins/cogs8/mataric-primer.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.robotics.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more robotics resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Introduction to Robotics</h5>
+                                        <p class="card-text">Covers fundamental mechanics, including kinematics and dynamics, essential for robotics enthusiasts.</p>
+                                        <a href="https://www.changjiangcai.com/files/text-books/Introduction-to-Robotics-3rd-edition.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.robotics.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more robotics resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Robotics: Modelling, Planning and Control</h5>
+                                        <p class="card-text">Advanced topics in robotics control systems, suitable for technical learners.</p>
+                                        <a href="https://link.springer.com/content/pdf/10.1007%2F978-1-84628-642-1.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.springer.com/gp/book/9781846286414" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more robotics resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Robotics pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="programmingSection">
+                <h2 class="accordion-header" id="programmingHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#programmingCollapse" aria-expanded="false" aria-controls="programmingCollapse">
+                        Programming <span class="badge-category ms-2">4 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="programmingCollapse" class="accordion-collapse collapse" aria-labelledby="programmingHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Programming is the foundation of software development. Master languages like Python, JavaScript, and more with our comprehensive resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://cdn.elearningindustry.com/wp-content/uploads/2013/01/Smart-Steps-Infographic1.png" alt="Programming Learning Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="programmingVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/8DvywoWv6fI" title="Python Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>freeCodeCamp - Python for Beginners</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/Z1Yd7upQsXY" title="JavaScript Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Programming with Mosh - JavaScript Basics</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#programmingVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#programmingVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="programmingBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Introduction to Python Programming</h5>
+                                        <p class="card-text">A beginner-friendly guide to Python, covering variables, loops, and functions with practical examples.</p>
+                                        <a href="https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Python_Programming_-_WEB.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.freecodecamp.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more programming resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Concepts of Programming Languages</h5>
+                                        <p class="card-text">Explores programming paradigms and language design for deeper coding understanding.</p>
+                                        <a href="https://www.ime.usp.br/~alvaroma/ucsp/proglang/book.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.freecodecamp.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more programming resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Competitive Programmer's Handbook</h5>
+                                        <p class="card-text">A guide to algorithms and techniques for competitive programming challenges.</p>
+                                        <a href="https://cses.fi/book.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.freecodecamp.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more programming resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Clean Code</h5>
+                                        <p class="card-text">Principles for writing clean, maintainable code to improve software quality.</p>
+                                        <a href="https://github.com/ryanmcdermott/clean-code-javascript/raw/master/clean-code-javascript.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://github.com/ryanmcdermott/clean-code-javascript" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more programming resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Programming pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="uiuxSection">
+                <h2 class="accordion-header" id="uiuxHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#uiuxCollapse" aria-expanded="false" aria-controls="uiuxCollapse">
+                        UI/UX Design <span class="badge-category ms-2">3 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="uiuxCollapse" class="accordion-collapse collapse" aria-labelledby="uiuxHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">UI/UX Design focuses on creating intuitive and visually appealing interfaces. Learn user-centered design principles and tools like Figma to craft engaging digital experiences.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://cdn.dribbble.com/users/1232090/screenshots/15923464/media/2c6f8c0f6b2b4e7f9a1c7b2e1f3e4a5c.png" alt="UI/UX Learning Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="uiuxVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/c9Wg6Cb_YlU" title="UI/UX Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>DesignCourse - UI/UX Basics</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/0h2b4fNBhvk" title="Figma Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Flux Academy - Figma for UI/UX</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#uiuxVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#uiuxVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="uiuxBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">User Experience (UX) / User Interface (UI)</h5>
+                                        <p class="card-text">Introduces core principles of UX and UI design for creating intuitive interfaces.</p>
+                                        <a href="https://course.ccs.neu.edu/cs5500sp17/09-UX.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.interaction-design.org/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more UI/UX resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">The Design of Everyday Things</h5>
+                                        <p class="card-text">A classic text on user-centered design principles for effective product design.</p>
+                                        <a href="https://www.cs.colorado.edu/~clayton/classes/hfcs/readings/norman.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.jnd.org/books/the-design-of-everyday-things-revised-and-expanded-edition/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more UI/UX resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Don't Make Me Think</h5>
+                                        <p class="card-text">A guide to web usability, emphasizing simple and effective design practices.</p>
+                                        <a href="https://ptgmedia.pearsoncmg.com/images/9780321965516/samplepages/0321965515.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.sensible.com/dmmt.html" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more UI/UX resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="UI/UX pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="machineLearningSection">
+                <h2 class="accordion-header" id="machineLearningHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#machineLearningCollapse" aria-expanded="false" aria-controls="machineLearningCollapse">
+                        Machine Learning <span class="badge-category ms-2">4 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="machineLearningCollapse" class="accordion-collapse collapse" aria-labelledby="machineLearningHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Machine Learning enables computers to learn from data. Dive into algorithms, neural networks, and practical applications with our resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://miro.medium.com/max/1400/1*6zM7H1oX1i_1f0z5r2n0lw.png" alt="Machine Learning Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="machineLearningVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/Gv9_4yMHFhI" title="ML Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>StatQuest - Machine Learning Basics</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/UvxHOkYQl8o" title="Deep Learning Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Sentdex - Deep Learning with Python</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#machineLearningVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#machineLearningVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="machineLearningBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Introduction to Machine Learning</h5>
+                                        <p class="card-text">A beginner's guide to ML algorithms and their applications.</p>
+                                        <a href="https://alex.smola.org/drafts/thebook.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more ML resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Understanding Machine Learning</h5>
+                                        <p class="card-text">Explores ML from theory to algorithms for intermediate learners.</p>
+                                        <a href="https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more ML resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pattern Recognition and Machine Learning</h5>
+                                        <p class="card-text">Advanced techniques in pattern recognition for ML practitioners.</p>
+                                        <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more ML resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Hands-On Machine Learning with Scikit-Learn</h5>
+                                        <p class="card-text">Practical guide to ML using Python libraries like Scikit-Learn.</p>
+                                        <a href="https://github.com/ageron/handson-ml2/raw/master/handson-ml2.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://github.com/ageron/handson-ml2" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more ML resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Machine Learning pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="dataScienceSection">
+                <h2 class="accordion-header" id="dataScienceHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataScienceCollapse" aria-expanded="false" aria-controls="dataScienceCollapse">
+                        Data Science <span class="badge-category ms-2">4 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="dataScienceCollapse" class="accordion-collapse collapse" aria-labelledby="dataScienceHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Data Science transforms raw data into insights. Learn statistical methods, data visualization, and analytics with our curated resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://www.simplilearn.com/ice9/free_resources_article_thumb/Data_Science_Roadmap.jpg" alt="Data Science Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="dataScienceVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/ua-CiDNNj30" title="Data Science Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>freeCodeCamp - Data Science with Python</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/N6BghzuFLIg" title="Data Analysis Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>DataCamp - Data Analysis Basics</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#dataScienceVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#dataScienceVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="dataScienceBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Science and Machine Learning</h5>
+                                        <p class="card-text">An introduction to data science concepts and ML applications.</p>
+                                        <a href="https://people.smp.uq.edu.au/DirkKroese/DSML/DSML.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.datacamp.com/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more data science resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Principles of Data Science</h5>
+                                        <p class="card-text">Core principles and practices for effective data science workflows.</p>
+                                        <a href="https://assets.openstax.org/oscms-prodcms/media/documents/Principles-of-Data-Science-WEB.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.datacamp.com/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more data science resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foundations of Data Science</h5>
+                                        <p class="card-text">Theoretical foundations for data science, covering math and stats.</p>
+                                        <a href="https://www.cs.cornell.edu/jeh/book.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.datacamp.com/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more data science resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Python Data Science Handbook</h5>
+                                        <p class="card-text">Essential tools for data science using Python, including NumPy and Pandas.</p>
+                                        <a href="https://jakevdp.github.io/PythonDataScienceHandbook/handbook.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://jakevdp.github.io/PythonDataScienceHandbook/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more data science resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Data Science pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="webDevelopmentSection">
+                <h2 class="accordion-header" id="webDevelopmentHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#webDevelopmentCollapse" aria-expanded="false" aria-controls="webDevelopmentCollapse">
+                        Web Development <span class="badge-category ms-2">3 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="webDevelopmentCollapse" class="accordion-collapse collapse" aria-labelledby="webDevelopmentHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Web Development powers the internet with HTML, CSS, and JavaScript. Build responsive and dynamic websites with these resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://roadmap.sh/roadmaps/frontend.png" alt="Web Development Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="webDevelopmentVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/Q33KBiDriJY" title="Web Dev Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Traversy Media - Web Development Crash Course</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/siBwoz2DZ6I" title="Net Ninja Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Net Ninja - JavaScript Projects</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#webDevelopmentVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#webDevelopmentVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="webDevelopmentBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">HTML and CSS: Design and Build Websites</h5>
+                                        <p class="card-text">A beginner's guide to web design with HTML and CSS.</p>
+                                        <a href="https://www.pdfdrive.com/download.pdf?id=158527171&h=5b5b5b5b5b5b5b5b&d=pdfdrive.com" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.w3schools.com/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more web dev resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Eloquent JavaScript</h5>
+                                        <p class="card-text">A modern introduction to JavaScript programming for web development.</p>
+                                        <a href="https://eloquentjavascript.net/Eloquent_JavaScript.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://eloquentjavascript.net/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more web dev resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Learning Web Design</h5>
+                                        <p class="card-text">Covers HTML, CSS, JavaScript, and web graphics for beginners.</p>
+                                        <a href="https://ptgmedia.pearsoncmg.com/images/9780138018238/samplepages/0138018235.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://www.learningwebdesign.com/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more web dev resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Web Development pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" id="aiSection">
+                <h2 class="accordion-header" id="aiHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#aiCollapse" aria-expanded="false" aria-controls="aiCollapse">
+                        Artificial Intelligence <span class="badge-category ms-2">3 Books + Videos + Roadmap</span>
+                    </button>
+                </h2>
+                <div id="aiCollapse" class="accordion-collapse collapse" aria-labelledby="aiHeading" data-bs-parent="#booksAccordion">
+                    <div class="accordion-body">
+                        <p class="mb-4">Artificial Intelligence drives innovation in automation and decision-making. Explore foundational and advanced AI concepts with these resources.</p>
+                        <h5 class="mb-3">Learning Roadmap</h5>
+                        <img src="https://roadmap.sh/roadmaps/ai.png" alt="AI Learning Roadmap" class="roadmap-img mb-4">
+                        <h5 class="mb-3">Recommended YouTube Videos</h5>
+                        <div id="aiVideos" class="carousel slide mb-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <iframe src="https://www.youtube.com/embed/JMUxmLyrhSk" title="AI Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>Siraj Raval - AI for Everyone</h6>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <iframe src="https://www.youtube.com/embed/ad79nYk2keg" title="DeepLearning.AI Tutorial" frameborder="0" allowfullscreen></iframe>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h6>DeepLearning.AI - AI Fundamentals</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#aiVideos" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#aiVideos" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="aiBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Artificial Intelligence: A Modern Approach</h5>
+                                        <p class="card-text">A comprehensive textbook covering AI concepts and techniques.</p>
+                                        <a href="http://aima.cs.berkeley.edu/aima.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="http://aima.cs.berkeley.edu/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more AI resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">AI Superpowers</h5>
+                                        <p class="card-text">Explores AI's impact on global economies and industries.</p>
+                                        <a href="https://www.pdfdrive.com/ai-superpowers-china-silicon-valley-and-the-new-world-order-e185949958.html" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://kaispace.com/ai-superpowers/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more AI resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Superintelligence</h5>
+                                        <p class="card-text">Discusses the future of AI, its risks, and strategies for development.</p>
+                                        <a href="https://nickbostrom.com/superintelligence.pdf" class="btn btn-primary" download data-bs-toggle="tooltip" title="Download the book PDF"><i class="fas fa-download me-2"></i>Download PDF</a>
+                                        <a href="https://nickbostrom.com/superintelligence/" class="btn btn-secondary mt-2" data-bs-toggle="tooltip" title="Explore more AI resources"><i class="fas fa-external-link-alt me-2"></i>Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="AI pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- Pagination dynamically generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Login</button>
+                    <p class="mt-3 text-center">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="signupUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="signupUsername" placeholder="Choose a username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Sign Up</button>
+                    <p class="mt-3 text-center">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="contactName" placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="contactEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="contactSubject" placeholder="Subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Message</label>
+                        <textarea class="form-control" id="contactMessage" rows="4" placeholder="Your message" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>About Digital Library</h5>
+                <p>We are committed to providing free, high-quality educational resources to learners worldwide. Join our community to access books, videos, and roadmaps in technology fields.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#books">Books</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Stay Connected</h5>
+                <p>Follow us on social media for updates and new resources.</p>
+                <div class="social-links">
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-github"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-youtube"></i></a>
+                </div>
+                <h5 class="mt-4">Newsletter</h5>
+                <form <div class="mb-3">
+                        <label for="newsletterEmail" class="form-label text-white">Email Address</label>
+                        <input type="email" class="form-control" id="newsletterEmail" placeholder="name@example.com" required>
+                    </div>
+                    <button type="button" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; 2025 Digital Web-Based Library. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<a href="#home" class="btn btn-primary back-to-top" data-bs-toggle="tooltip" title="Back to top"><i class="fas fa-chevron-up"></i></a>
+
+<!-- Chatbot Button and Window -->
+<div class="chatbot-button" id="chatbotToggle" data-bs-toggle="tooltip" title="Open AI Assistant">
+    <i class="fas fa-robot"></i>
+</div>
+<div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+        <h5>AI Assistant</h5>
+        <button class="btn-close btn-close-white" id="chatbotClose" aria-label="Close"></button>
+    </div>
+    <div class="chatbot-body" id="chatbotMessages">
+        <div class="chatbot-message bot">Welcome! I'm here to answer your questions about Robotics, Programming, UI/UX, Machine Learning, Data Science, Web Development, or AI. Ask away!</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Type your question..." aria-label="Chatbot input">
+        <button onclick="sendChatbotMessage()">Send</button>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<!-- Custom JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Bootstrap Tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+    // Back to Top Button
+    const backToTop = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.style.display = 'block';
+        } else {
+            backToTop.style.display = 'none';
+        }
+    });
+
+    // Search Functionality
+    function searchBooks() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const searchLoading = document.querySelector('.search-loading');
+        searchLoading.style.display = 'block';
+        setTimeout(() => {
+            const bookCards = document.querySelectorAll('.book-card');
+            let found = false;
+            bookCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const text = card.querySelector('.card-text').textContent.toLowerCase();
+                if (title.includes(searchInput) || text.includes(searchInput)) {
+                    card.style.display = 'block';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            searchLoading.style.display = 'none';
+            if (!found) {
+                alert('No books found matching your search.');
+            }
+        }, 1000);
+    }
+
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        const bookCards = document.querySelectorAll('.book-card');
+        bookCards.forEach(card => card.style.display = 'block');
+    }
+
+    window.searchBooks = searchBooks;
+    window.clearSearch = clearSearch;
+
+    // Category Filter
+    function filterCategory() {
+        const category = document.getElementById('categoryFilter').value;
+        const sections = document.querySelectorAll('.accordion-item');
+        sections.forEach(section => {
+            if (category === 'all' || section.id.toLowerCase().includes(category.toLowerCase())) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
+
+    window.filterCategory = filterCategory;
+
+    // Pagination for Books
+    function setupPagination() {
+        const bookCarousels = document.querySelectorAll('.book-carousel');
+        bookCarousels.forEach(carousel => {
+            const books = carousel.querySelectorAll('.book-card');
+            const pagination = carousel.nextElementSibling.querySelector('.pagination');
+            const booksPerPage = 3;
+            const totalPages = Math.ceil(books.length / booksPerPage);
+
+            for (let i = 0; i < totalPages; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = 'page-item';
+                pageItem.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
+                pagination.appendChild(pageItem);
+            }
+
+            pagination.querySelector('.page-item').classList.add('active');
+            books.forEach((book, index) => {
+                if (index >= booksPerPage) book.style.display = 'none';
+            });
+
+            pagination.querySelectorAll('.page-item').forEach((item, index) => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    pagination.querySelectorAll('.page-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    books.forEach((book, bookIndex) => {
+                        book.style.display = (bookIndex >= index * booksPerPage && bookIndex < (index + 1) * booksPerPage) ? 'block' : 'none';
+                    });
+                });
+            });
+        });
+    }
+
+    setupPagination();
+
+    // Chatbot Functionality
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+
+    function toggleChatbot() {
+        chatbotWindow.style.display = chatbotWindow.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    function closeChatbot() {
+        chatbotWindow.style.display = 'none';
+    }
+
+    function sendChatbotMessage() {
+        const message = chatbotInput.value.trim();
+        if (message === '') return;
+
+        const userMessage = document.createElement('div');
+        userMessage.className = 'chatbot-message user';
+        userMessage.textContent = message;
+        chatbotMessages.appendChild(userMessage);
+
+        const techKeywords = ['robotics', 'programming', 'ui', 'ux', 'machine learning', 'data science', 'web development', 'ai', 'artificial intelligence', 'python', 'javascript', 'html', 'css'];
+        const isTechRelated = techKeywords.some(keyword => message.toLowerCase().includes(keyword));
+
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chatbot-message bot';
+        if (isTechRelated) {
+            botMessage.textContent = `Great question about ${message}! Here's a brief answer: This topic is part of our library's resources. Check out the relevant section for books and videos, or ask me for specific recommendations!`;
+        } else {
+            botMessage.textContent = `Hmm, that doesn't seem to be a tech-related question. I can help with topics like Robotics, Programming, UI/UX, Machine Learning, Data Science, Web Development, or AI. Try asking about one of those!`;
+        }
+        chatbotMessages.appendChild(botMessage);
+
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        chatbotInput.value = '';
+    }
+
+    chatbotToggle.addEventListener('click', toggleChatbot);
+    chatbotClose.addEventListener('click', closeChatbot);
+    window.sendChatbotMessage = sendChatbotMessage;
+
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendChatbotMessage();
+        }
+    });
+});
+</script>
+</body>
+</html>
