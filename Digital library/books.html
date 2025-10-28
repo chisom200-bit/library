@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books & Research - Digital Web-Based Library</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts for Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="books.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="index.html"><i class="fas fa-book-open"></i> Digital Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="books.html">Books and Research</a></li>
+                <li class="nav-item"><a class="nav-link" href="feature.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal" href="#">Login</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#signupModal" href="#">Signup</a></li>
+                <li class="nav-item"><a class="nav-link" href="note.html">My Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="quiz.html">Take Quiz</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section py-5 bg-primary text-white">
+    <div class="container-text-center">
+        <h1 class="display-4 fw-bold">Coding Books & Research Hub</h1>
+        <p class="lead mb-4">Discover a curated collection of free books, theses, journals, and research papers on <br> Programming, Web Development, Machine Learning, Data Science, <br> and AI. Access cutting-edge resources to deepen your coding expertise.</p>
+        <a href="#research" class="btn btn-light btn-lg">Explore Resources</a>
+    </div>
+</section>
+
+<!-- Search and Filter -->
+<section id="search" class="py-4 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">Find Coding Resources</h2>
+        <form class="search-form">
+            <div class="input-group mb-3 position-relative">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search for books, theses, or journals..." aria-label="Search resources">
+                <button class="btn btn-primary" type="button" onclick="searchBooks()" data-bs-toggle="tooltip" title="Search resources"><i class="fas fa-search me-2"></i>Search</button>
+                <button class="btn btn-secondary" type="button" onclick="clearSearch()" data-bs-toggle="tooltip" title="Clear search"><i class="fas fa-times me-2"></i>Clear</button>
+                <div class="spinner-border text-primary search-loading" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="categoryFilter" class="form-label">Filter by Category:</label>
+                <select id="categoryFilter" class="form-select w-auto d-inline-block" onchange="filterCategory()">
+                    <option value="all">All Categories</option>
+                    <option value="programming">Programming</option>
+                    <option value="webDevelopment">Web Development</option>
+                    <option value="machineLearning">Machine Learning</option>
+                    <option value="dataScience">Data Science</option>
+                    <option value="ai">Artificial Intelligence</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Books & Research Section -->
+<section id="research" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Coding Resources</h2>
+        <div class="accordion" id="researchAccordion">
+            <!-- Programming -->
+            <div class="accordion-item" id="programmingSection">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#programmingCollapse" aria-expanded="true">
+                        Programming <span class="badge badge-category ms-2">Books, Theses, Journals</span>
+                    </button>
+                </h2>
+                <div id="programmingCollapse" class="accordion-collapse collapse show" data-bs-parent="#researchAccordion">
+                    <div class="accordion-body">
+                        <p class="category-intro">Master programming with foundational books and advanced research on algorithms, paradigms, and software engineering.</p>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="programmingBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Introduction to Python Programming</h5>
+                                        <p class="card-text">A beginner-friendly guide covering variables, loops, and functions with practical examples.</p>
+                                        <a href="https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Python_Programming_-_WEB.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.python.org/about/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about Python">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Concepts of Programming Languages</h5>
+                                        <p class="card-text">Explores paradigms and language design for deeper understanding.</p>
+                                        <a href="https://www.ime.usp.br/~alvaroma/ucsp/proglang/book.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.programminglanguages.info/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about programming languages">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Clean Code</h5>
+                                        <p class="card-text">Principles for writing maintainable and readable code.</p>
+                                        <a href="https://github.com/ryanmcdermott/clean-code-javascript/raw/master/clean-code-javascript.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://github.com/ryanmcdermott/clean-code-javascript" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about Clean Code">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3 mt-4">Research Works</h5>
+                        <div class="row book-carousel">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Python to Learn Programming</h5>
+                                        <p class="card-text">Thesis on using Python for teaching programming concepts.</p>
+                                        <a href="https://www.researchgate.net/publication/258800484_Python_to_learn_programming" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">A Qualitative Study of Programming Languages</h5>
+                                        <p class="card-text">Journal article on teaching CS students various languages.</p>
+                                        <a href="https://www.researchgate.net/publication/306438454_A_qualitative_study_of_major_programming_languages_teaching_programming_languages_to_computer_science_students" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">101 Free Online Journal Databases</h5>
+                                        <p class="card-text">Guide to accessing programming research resources.</p>
+                                        <a href="https://www.researchgate.net/publication/327098316_101_Free_Online_Journal_and_Research_Databases_for_Academics" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Programming pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Web Development -->
+            <div class="accordion-item" id="webDevelopmentSection">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#webDevelopmentCollapse">
+                        Web Development <span class="badge badge-category ms-2">Books, Theses, Journals</span>
+                    </button>
+                </h2>
+                <div id="webDevelopmentCollapse" class="accordion-collapse collapse" data-bs-parent="#researchAccordion">
+                    <div class="accordion-body">
+                        <p class="category-intro">Build modern websites with resources on HTML, CSS, JavaScript, and frameworks, plus research on web technologies.</p>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="webDevelopmentBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">HTML and CSS: Design and Build Websites</h5>
+                                        <p class="card-text">Beginner's guide to web design fundamentals.</p>
+                                        <a href="https://www.pdfdrive.com/download.pdf?id=158527171&h=5b5b5b5b5b5b5b5b&d=pdfdrive.com" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.w3schools.com/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about HTML and CSS">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Eloquent JavaScript</h5>
+                                        <p class="card-text">Modern introduction to JavaScript programming.</p>
+                                        <a href="https://eloquentjavascript.net/Eloquent_JavaScript.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://eloquentjavascript.net/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about JavaScript">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Learning Web Design</h5>
+                                        <p class="card-text">Covers HTML, CSS, JavaScript, and web graphics.</p>
+                                        <a href="https://ptgmedia.pearsoncmg.com/images/9780138018238/samplepages/0138018235.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.learningwebdesign.com/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about web design">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3 mt-4">Research Works</h5>
+                        <div class="row book-carousel">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Web Development Trends</h5>
+                                        <p class="card-text">Journal on modern web frameworks and technologies.</p>
+                                        <a href="https://www.researchgate.net/publication/374824054_Web_Development_Trends_and_Technologies" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Responsive Web Design Thesis</h5>
+                                        <p class="card-text">Study on adaptive layouts for mobile devices.</p>
+                                        <a href="https://www.researchgate.net/publication/326546789_Responsive_Web_Design" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Web Accessibility Standards</h5>
+                                        <p class="card-text">Paper on inclusive web design practices.</p>
+                                        <a href="https://www.w3.org/WAI/standards-guidelines/" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Web Development pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Machine Learning -->
+            <div class="accordion-item" id="machineLearningSection">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#machineLearningCollapse">
+                        Machine Learning <span class="badge badge-category ms-2">Books, Theses, Journals</span>
+                    </button>
+                </h2>
+                <div id="machineLearningCollapse" class="accordion-collapse collapse" data-bs-parent="#researchAccordion">
+                    <div class="accordion-body">
+                        <p class="category-intro">Dive into algorithms, neural networks, and applications with books and advanced research papers.</p>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="machineLearningBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Introduction to Machine Learning</h5>
+                                        <p class="card-text">Beginner's guide to ML algorithms and applications.</p>
+                                        <a href="https://alex.smola.org/drafts/thebook.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about ML">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Understanding Machine Learning</h5>
+                                        <p class="card-text">Theory and algorithms for intermediate learners.</p>
+                                        <a href="https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about ML">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pattern Recognition and Machine Learning</h5>
+                                        <p class="card-text">Advanced pattern recognition techniques.</p>
+                                        <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.coursera.org/learn/machine-learning" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about ML">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3 mt-4">Research Works</h5>
+                        <div class="row book-carousel">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Machine Learning and Deep Learning</h5>
+                                        <p class="card-text">Comparative study of ML and DL techniques.</p>
+                                        <a href="https://www.researchgate.net/publication/364097061_Machine_Learning_and_Deep_Learning" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Research on ML Algorithms</h5>
+                                        <p class="card-text">Development and applications of ML algorithms.</p>
+                                        <a href="https://www.researchgate.net/publication/341875705_Research_on_Machine_Learning_and_Its_Algorithms_and_Development" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Deep Learning for NLP</h5>
+                                        <p class="card-text">Thesis on deep learning in natural language processing.</p>
+                                        <a href="https://arxiv.org/pdf/2003.00185" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Machine Learning pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Data Science -->
+            <div class="accordion-item" id="dataScienceSection">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dataScienceCollapse">
+                        Data Science <span class="badge badge-category ms-2">Books, Theses, Journals</span>
+                    </button>
+                </h2>
+                <div id="dataScienceCollapse" class="accordion-collapse collapse" data-bs-parent="#researchAccordion">
+                    <div class="accordion-body">
+                        <p class="category-intro">Transform data into insights with resources on statistics, visualization, and analytics.</p>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="dataScienceBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Science and Machine Learning</h5>
+                                        <p class="card-text">Introduction to data science and ML applications.</p>
+                                        <a href="https://people.smp.uq.edu.au/DirkKroese/DSML/DSML.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.datacamp.com/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about Data Science">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Python Data Science Handbook</h5>
+                                        <p class="card-text">Tools for data science using Python, including NumPy and Pandas.</p>
+                                        <a href="https://soclibrary.futa.edu.ng/books/DATA%20SCIENCE%20FROM%20SCRATCH%20From%20Data%20Visualization%20To%20Manipulation.%20It%20Is%20The%20Easy%20Way%20All%20You%20Need%20For%20Business%20Using%20The...%20(WILLIAM%20GRAY)%20(Z-Library).pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://jakevdp.github.io/PythonDataScienceHandbook/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about Python Data Science">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foundations of Data Science</h5>
+                                        <p class="card-text">Theoretical foundations covering math and stats.</p>
+                                        <a href="https://www.cs.cornell.edu/jeh/book.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://www.datacamp.com/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about Data Science">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3 mt-4">Research Works</h5>
+                        <div class="row book-carousel">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Big Data Analytics</h5>
+                                        <p class="card-text">Journal on big data techniques and applications.</p>
+                                        <a href="https://www.researchgate.net/publication/305689350_Big_Data_Analytics" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Science in Practice</h5>
+                                        <p class="card-text">Thesis on real-world data science applications.</p>
+                                        <a href="https://www.researchgate.net/publication/334687391_Data_Science_in_Practice" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Visualization Techniques</h5>
+                                        <p class="card-text">Paper on effective visualization methods.</p>
+                                        <a href="https://www.researchgate.net/publication/319181423_Data_Visualization_Techniques" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Data Science pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Artificial Intelligence -->
+            <div class="accordion-item" id="aiSection">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#aiCollapse">
+                        Artificial Intelligence <span class="badge badge-category ms-2">Books, Theses, Journals</span>
+                    </button>
+                </h2>
+                <div id="aiCollapse" class="accordion-collapse collapse" data-bs-parent="#researchAccordion">
+                    <div class="accordion-body">
+                        <p class="category-intro">Explore AI concepts, ethics, and advanced research for intelligent systems.</p>
+                        <h5 class="mb-3">Books</h5>
+                        <div class="row book-carousel" id="aiBooks">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Artificial Intelligence: A Modern Approach</h5>
+                                        <p class="card-text">Comprehensive textbook on AI concepts and techniques.</p>
+                                        <a href="http://aima.cs.berkeley.edu/aima.pdf" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="http://aima.cs.berkeley.edu/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about AI">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">AI Superpowers</h5>
+                                        <p class="card-text">Impact of AI on global economies and industries.</p>
+                                        <a href="https://www.pdfdrive.com/ai-superpowers-china-silicon-valley-and-the-new-world-order-e185949958.html" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://kaispace.com/ai-superpowers/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about AI">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Superintelligence</h5>
+                                        <p class="card-text">Future implications of AI for humanity.</p>
+                                        <a href="https://www.pdfdrive.com/superintelligence-paths-dangers-strategies-e158527171.html" class="btn btn-primary" target="_blank" data-bs-toggle="tooltip" title="Download PDF">Download PDF</a>
+                                        <a href="https://nickbostrom.com/superintelligence/" class="btn btn-info mt-2" target="_blank" data-bs-toggle="tooltip" title="More about AI">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3 mt-4">Research Works</h5>
+                        <div class="row book-carousel">
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ethics of Artificial Intelligence</h5>
+                                        <p class="card-text">Paper on ethical considerations in AI development.</p>
+                                        <a href="https://arxiv.org/pdf/1802.02181" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">AI in Healthcare Thesis</h5>
+                                        <p class="card-text">Applications of AI in medical diagnostics.</p>
+                                        <a href="https://www.researchgate.net/publication/340224168_Artificial_Intelligence_in_Healthcare" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 book-card">
+                                <div class="card research-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Advances in AI Algorithms</h5>
+                                        <p class="card-text">Journal on recent AI algorithm developments.</p>
+                                        <a href="https://www.researchgate.net/publication/335789991_Advances_in_Artificial_Intelligence_Algorithms" class="btn btn-research" target="_blank" data-bs-toggle="tooltip" title="View research paper">View Research</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="AI pagination" class="book-pagination mt-4">
+                            <ul class="pagination justify-content-center"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Login</button>
+                    <p class="mt-3 text-center">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="signupUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="signupUsername" placeholder="Choose a username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Sign Up</button>
+                    <p class="mt-3 text-center">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="contactName" placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="contactEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="contactSubject" placeholder="Subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Message</label>
+                        <textarea class="form-control" id="contactMessage" rows="4" placeholder="Your message" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>About Digital Library</h5>
+                <p>Access free, high-quality coding resources to advance your skills in 2025 and beyond.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Books & Research</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Stay Connected</h5>
+                <div class="social-links">
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; 2025 Digital Web-Based Library. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<a href="#research" class="btn btn-primary back-to-top" data-bs-toggle="tooltip" title="Back to top"><i class="fas fa-chevron-up"></i></a>
+
+<!-- Chatbot -->
+<div class="chatbot-button" id="chatbotToggle" data-bs-toggle="tooltip" title="Open AI Assistant">
+    <i class="fas fa-robot"></i>
+</div>
+<div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+        <h5>AI Assistant</h5>
+        <button class="btn-close btn-close-white" id="chatbotClose" aria-label="Close"></button>
+    </div>
+    <div class="chatbot-body" id="chatbotMessages">
+        <div class="chatbot-message bot">Ask me about coding resources in Programming, Web Development, Machine Learning, Data Science, or AI!</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Type your question..." aria-label="Chatbot input">
+        <button onclick="sendChatbotMessage()">Send</button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

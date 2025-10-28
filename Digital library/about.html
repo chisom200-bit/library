@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Digital Web-Based Library</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts for Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="about.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation Bar (identical to books.html and features.html) -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="index.html"><i class="fas fa-book-open"></i> Digital Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="books.html">Books & Research</a></li>
+                <li class="nav-item"><a class="nav-link" href="feature.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#contactModal" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal" href="#">Login</a></li>
+                <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#signupModal" href="#">Signup</a></li>
+                <li class="nav-item"><a class="nav-link" href="note.html">My Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="quiz.html">Take Quiz</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">About Digital Library</h1>
+        <p class="lead mb-4">Empowering coders with free, high-quality resources to learn, innovate, and excel in 2025 and beyond.</p>
+        <a href="#about" class="btn btn-light btn-lg" data-bs-toggle="tooltip" title="Learn more about us">Our Story</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <!-- Mission -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Our Mission</h2>
+                <p class="lead">At Digital Library, our mission is to democratize access to coding education by providing a comprehensive, free platform that empowers learners worldwide. We are committed to curating reliable, high-quality resources—videos, PDFs, and research works—to support coders at every stage, from beginners exploring Python to experts diving into machine learning and AI. Our values of accessibility, inclusivity, and innovation drive us to create a community where knowledge is shared freely, and every coder can thrive.</p>
+                <p>We aim to bridge the gap between aspiration and achievement by offering tools like interactive code playgrounds, personalized recommendations, and community forums, ensuring that learning is engaging, practical, and accessible to all, regardless of background or resources.</p>
+            </div>
+        </div>
+        <!-- History -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4">Our Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Avaliable PDF's for learning</h5>
+                            <p>Recognizing the global demand for tech skills, our founders envisioned a free platform to centralize coding resources most especially PDF's to aid learning by reading and getting more knowledge.</p>
+                            <button class="btn btn-primary toggle-timeline" data-target="timeline2022">Details</button>
+                            <div class="timeline-details" id="timeline2022">
+                                <p>At Digital Library, our free, high-quality PDFs empower anyone to break into tech. Whether you’re a beginner learning Python or an expert exploring AI, our curated collection supports your journey on our web-based platform.
+Why Choose Our PDFs?
+Our downloadable PDFs let you learn offline, at your pace, with no cost. From coding basics to advanced research, they’re perfect for building skills in 2025’s tech landscape.
+Curated for Every Learner
+Explore a diverse range of vetted PDFs:
+
+Programming: Master Python, JavaScript, and more with guides like Eloquent JavaScript.
+Web Development: Learn HTML, CSS, and React with practical manuals.
+Data Science & AI: Dive into Python Data Science Handbook and arXiv research papers.
+Cybersecurity & Cloud: Study ethical hacking and cloud architecture.
+
+Curated by Jane Smith, our team ensures every PDF meets high standards.
+Accessible to All
+Our PDFs are free, downloadable, and support offline access, making learning possible anywhere. Screen reader compatibility ensures inclusivity for all users.
+Learn Smarter
+Pair PDFs with our code playground, AI-driven recommendations, and learning paths to practice and track progress. Join our community forums, led by Alex Brown, to share insights and grow.
+Start Today
+Ready to evolve into tech? Download PDFs from our Books & Research section and start building your skills now.
+Explore PDFs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>2023: Building the Foundation</h5>
+                            <p>Developed the initial platform, focusing on curating open-access books and videos.</p>
+                            <button class="btn btn-primary toggle-timeline" data-target="timeline2023">Details</button>
+                            <div class="timeline-details" id="timeline2023">
+                                <p>In 2023, Digital Library laid the groundwork for a transformative platform to empower coders worldwide. Our team of passionate educators and developers began curating a robust collection of free, high-quality coding resources, including open-access books, video tutorials, and research papers. By collaborating with open-source communities and trusted platforms like freeCodeCamp and arXiv, we ensured every resource met rigorous standards for accuracy and relevance.
+This foundational year focused on designing an intuitive, web-based interface that makes learning accessible to all, from beginners mastering Python to professionals exploring AI. We introduced core features like offline PDF access and a user-friendly resource library, setting the stage for a global coding community. Led by founder John Doe and content curator Jane Smith, this milestone marked the birth of a platform dedicated to breaking down barriers and fostering tech innovation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>2024: Official Launch</h5>
+                            <p>Launched Digital Library with a collection of coding books, videos, and research papers, accessible globally.</p>
+                            <button class="btn btn-primary toggle-timeline" data-target="timeline2024">Details</button>
+                            <div class="timeline-details" id="timeline2024">
+                                <p>In 2024, Digital Library officially launched, bringing free, high-quality coding resources to learners worldwide. Our platform debuted with a curated collection of coding books, video tutorials, and research papers, spanning Programming, Web Development, Data Science, and AI. By partnering with trusted platforms like freeCodeCamp and arXiv, we ensured a diverse, reliable library accessible to all.
+Led by founder John Doe and content curator Jane Smith, the launch introduced a user-friendly interface with features like offline PDF access and categorized resource navigation. This milestone marked Digital Library as a global hub for coders, empowering beginners and experts to build skills and innovate in the tech landscape of 2025 and beyond.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>2025: Growth & Innovation</h5>
+                            <p>Expanded with interactive features, community forums, and offline access to support diverse learners.</p>
+                            <button class="btn btn-primary toggle-timeline" data-target="timeline2025">Details</button>
+                            <div class="timeline-details" id="timeline2025">
+                                <p>In 2025, Digital Library soared to new heights, expanding our platform with innovative features to empower a global community of coders. We introduced interactive code playgrounds, AI-driven resource recommendations, and vibrant community forums, making learning more engaging and personalized. Enhanced offline access ensured our PDFs and videos reached learners in any environment.
+Led by founder John Doe and community manager Alex Brown, we grew to support thousands of users, from beginners mastering JavaScript to experts exploring machine learning. Strategic partnerships with open-source communities and platforms like arXiv fueled our curated library’s growth. This milestone solidified Digital Library as a dynamic hub for tech innovation, driving skill development in 2025 and beyond.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5>Future: Empowering More Coders</h5>
+                            <p>Planning to integrate advanced AI tools, expand language support, and partner with universities.</p>
+                            <button class="btn btn-primary toggle-timeline" data-target="timelineFuture">Details</button>
+                            <div class="timeline-details" id="timelineFuture">
+                                <p>Looking ahead to 2026 and beyond, Digital Library is committed to empowering even more coders worldwide. We plan to integrate advanced AI tools for real-time mentorship and personalized learning paths, making tech education more intuitive. Expanding multilingual resources will ensure accessibility for diverse learners, while partnerships with universities will offer certifications to validate skills.
+Led by founder John Doe and outreach coordinator Sarah Patel, our vision is to create a global ecosystem where every coder—beginner or expert—can access free, high-quality resources and thrive. By fostering inclusivity and innovation, Digital Library will continue to break barriers and shape the future of tech education.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Our Team</h2>
+                <p class="lead mb-4">Meet the passionate individuals behind Digital Library, dedicated to making coding education accessible to all.</p>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">John Doe</h5>
+                        <p class="card-text">Founder & Lead Developer</p>
+                        <p>With over 15 years in software engineering, John drives the platform’s technical vision, ensuring seamless functionality and scalability.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Jane Smith</h5>
+                        <p class="card-text">Content Curator</p>
+                        <p>Jane, an educator with a PhD in Computer Science, curates and verifies resources to maintain the highest quality standards.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Alex Brown</h5>
+                        <p class="card-text">Community Manager</p>
+                        <p>Alex builds our vibrant community, moderating forums and fostering collaboration among learners worldwide.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Emily Chen</h5>
+                        <p class="card-text">AI Specialist</p>
+                        <p>Emily designs our AI-driven recommendation system, personalizing learning paths for users.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Michael Lee</h5>
+                        <p class="card-text">UX Designer</p>
+                        <p>Michael crafts intuitive interfaces, ensuring a seamless and engaging user experience.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Sarah Patel</h5>
+                        <p class="card-text">Outreach Coordinator</p>
+                        <p>Sarah partners with educational institutions and open-source communities to expand our reach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Features -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">What We Offer</h2>
+                <p class="lead mb-4">Digital Library is your one-stop platform for coding education, offering:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-video me-2"></i>Reliable video tutorials from trusted sources like freeCodeCamp.</li>
+                    <li><i class="fas fa-file-pdf me-2"></i>Curated PDFs of coding books and guides.</li>
+                    <li><i class="fas fa-flask me-2"></i>Access to cutting-edge research from arXiv and ResearchGate.</li>
+                    <li><i class="fas fa-code me-2"></i>Interactive code playground for hands-on learning.</li>
+                    <li><i class="fas fa-brain me-2"></i>AI-driven personalized resource recommendations.</li>
+                    <li><i class="fas fa-users me-2"></i>Community forums for collaboration and discussion.</li>
+                    <li><i class="fas fa-download me-2"></i>Offline access to videos and PDFs.</li>
+                    <li><i class="fas fa-chart-line me-2"></i>Progress tracking and curated learning paths.</li>
+                </ul>
+                <a href="feature.html" class="btn btn-primary mt-3" data-bs-toggle="tooltip" title="Explore all features">Discover All Features</a>
+            </div>
+        </div>
+        <!-- Contact -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Get in Touch</h2>
+                <p class="lead mb-4">We’re here to support your coding journey. Contact us with questions, feedback, or partnership ideas!</p>
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#contactModal">Contact Us</button>
+                <a href="./FAQ.html" class="btn btn-info">View FAQ</a>
+                <div class="social-links mt-4">
+                    <a href="#" class="me-3" data-bs-toggle="tooltip" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3" data-bs-toggle="tooltip" title="Connect on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="me-3" data-bs-toggle="tooltip" title="Check our GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login to Your Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Login</button>
+                    <p class="mt-3 text-center">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="signupUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="signupUsername" placeholder="Choose a username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Sign Up</button>
+                    <p class="mt-3 text-center">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="contactName" placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="contactEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="contactSubject" placeholder="Subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Message</label>
+                        <textarea class="form-control" id="contactMessage" rows="4" placeholder="Your message" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>About Digital Library</h5>
+                <p>Access free, high-quality coding resources to advance your skills in 2025 and beyond.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="books.html">Books & Research</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Stay Connected</h5>
+                <div class="social-links">
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; 2025 Digital Web-Based Library. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<a href="#about" class="btn btn-primary back-to-top" data-bs-toggle="tooltip" title="Back to top"><i class="fas fa-chevron-up"></i></a>
+
+<!-- Chatbot -->
+<div class="chatbot-button" id="chatbotToggle" data-bs-toggle="tooltip" title="Open AI Assistant">
+    <i class="fas fa-robot"></i>
+</div>
+<div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+        <h5>AI Assistant</h5>
+        <button class="btn-close btn-close-white" id="chatbotClose" aria-label="Close"></button>
+    </div>
+    <div class="chatbot-body" id="chatbotMessages">
+        <div class="chatbot-message bot">Ask me about our mission, team, or how to get started!</div>
+    </div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Type your question..." aria-label="Chatbot input">
+        <button onclick="sendChatbotMessage()">Send</button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="about.js"></script>
+</body>
+</html>

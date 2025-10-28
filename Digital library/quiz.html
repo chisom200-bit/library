@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brilliant House Academy • Quiz App</title>
+  <!-- Chart.js for result charts (pure JS, CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg: #0f172a;         /* slate-900 */
+      --card: #111827;       /* gray-900 */
+      --muted: #94a3b8;      /* slate-400 */
+      --text: #e5e7eb;       /* gray-200 */
+      --brand: #22c55e;      /* green-500 */
+      --brand-2: #06b6d4;    /* cyan-500 */
+      --accent: #f59e0b;     /* amber-500 */
+      --danger: #ef4444;     /* red-500 */
+      --shadow: 0 10px 25px rgba(0,0,0,.3);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0; background: radial-gradient(1200px 700px at 10% 10%, rgba(6,182,212,.08), transparent 60%),
+                                   radial-gradient(1000px 600px at 90% 30%, rgba(34,197,94,.08), transparent 60%),
+                                   var(--bg);
+      color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    .container{ max-width: 1100px; margin: 0 auto; padding: 28px; }
+
+    .card{ background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+           backdrop-filter: blur(8px);
+           border: 1px solid rgba(255,255,255,.08);
+           border-radius: var(--radius); box-shadow: var(--shadow);
+           padding: 28px; }
+
+    .hidden{ display: none !important; }
+
+    .brand { color: var(--brand); }
+    .muted { color: var(--muted); }
+
+    /* Header / Hero */
+    header{ display:flex; align-items:center; justify-content:space-between; gap: 16px; margin-bottom: 18px; }
+    .logo{
+      display:flex; align-items:center; gap:12px; font-weight: 800; letter-spacing:.3px;
+    }
+    .logo-badge{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:900; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
+
+    .hero{ display:grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items:center; margin: 14px 0 28px; }
+    .hero h1{ font-size: clamp(28px, 3.2vw, 42px); margin: 0 0 8px; }
+    .hero p{ margin: 0 0 18px; color: var(--muted); }
+
+    .button{ appearance: none; border: none; border-radius: 14px; padding: 14px 18px; font-weight: 700; cursor: pointer; transition: transform .08s ease, box-shadow .2s ease, background .2s ease; }
+    .button.brand{ background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #041316; box-shadow: 0 8px 18px rgba(34,197,94,.25), 0 2px 8px rgba(6,182,212,.15); }
+    .button.brand:hover{ transform: translateY(-1px); }
+    .button.ghost{ background: transparent; border: 1px solid rgba(255,255,255,.12); color: var(--text); }
+
+    .illus{ min-height: 220px; border-radius: var(--radius); border: 1px dashed rgba(255,255,255,.12); display:grid; place-items:center; color: var(--muted); }
+
+    /* Category grid */
+    .grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    @media (min-width: 880px){ .grid{ grid-template-columns: repeat(5, minmax(0,1fr)); } }
+
+    .cat{
+      background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08); border-radius: 16px; padding:18px; display:flex; flex-direction:column; gap: 8px; justify-content: space-between; min-height:150px;
+      transition: transform .12s ease, border-color .2s ease; cursor: pointer;
+    }
+    .cat:hover{ transform: translateY(-3px); border-color: rgba(34,197,94,.35); }
+    .cat h3{ margin: 0; font-size: 16px; }
+    .badge{ display:inline-flex; align-items:center; gap:8px; font-size: 12px; color: var(--muted); }
+
+    /* Quiz Area */
+    .quiz-header{ display:flex; align-items:center; justify-content:space-between; gap: 14px; margin-bottom: 16px; }
+    .pill{ padding: 8px 12px; border-radius: 999px; border:1px solid rgba(255,255,255,.12); color: var(--muted); }
+    .timer{ font-weight:800; letter-spacing:.5px; }
+
+    .question{ font-size: 18px; margin-bottom: 12px; }
+    .options{ display:grid; gap: 10px; }
+    .option{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 12px; cursor:pointer; display:flex; align-items:flex-start; gap: 10px; transition: border-color .15s ease, background .15s ease; }
+    .option:hover{ border-color: rgba(34,197,94,.35); }
+    .option input{ margin-top: 3px; }
+
+    .quiz-footer{ display:flex; align-items:center; justify-content:space-between; margin-top: 16px; gap: 10px; }
+
+    .progress{ height: 10px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
+    .progress > div{ height: 100%; width: 0%; background: linear-gradient(135deg, var(--brand), var(--accent)); transition: width .3s ease; }
+
+    /* Results */
+    .results{ display:grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 900px){ .results{ grid-template-columns: 1.2fr .8fr; } }
+    .stats{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 12px; text-align:center; }
+    .stat .big{ font-size: 28px; font-weight: 900; }
+    .actions{ display:flex; gap: 10px; flex-wrap: wrap; }
+
+    /* Footer */
+    footer{ margin: 28px 0 8px; color: var(--muted); font-size: 13px; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-badge">DL</div>
+        <div>
+          <div>Digital Library Quiz Forum</div>
+          <div class="muted" style="font-size:12px">Interactive Quiz Hub</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Landing / Hero -->
+    <section id="landing" class="card">
+      <div class="hero">
+        <div>
+          <h1>Test your skills <span class="brand">HERE</span> way</h1>
+          <p>Pick a track Python, Web Development, UI/UX, Fundamentals of Programming, or Databases then answer 30 questions against a 30‑minute timer. Finish strong and see your stats in a beautiful chart.</p>
+          <div class="actions">
+            <button class="button brand" id="startBtn">Take a Quiz</button>
+            <button class="button ghost" id="howBtn">How it works</button>
+          </div>
+        </div>
+        <div class="illus">Your knowledge journey starts here 🚀</div>
+      </div>
+    </section>
+
+    <!-- Category Select -->
+    <section id="categorySelect" class="card hidden">
+      <h2 style="margin:0 0 14px;">Choose a Quiz</h2>
+      <div class="grid" id="categoryGrid"></div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="card hidden">
+      <div class="quiz-header">
+        <div class="pill" id="quizTitle">Category</div>
+        <div class="pill timer" id="timer">30:00</div>
+      </div>
+
+      <div class="progress" aria-label="Progress"><div id="progressBar"></div></div>
+
+      <div id="qa">
+        <div class="pill" id="qPosition" style="margin-top:12px; display:inline-block;">Question 1 of 30</div>
+        <div class="question" id="questionText">...</div>
+        <div class="options" id="options"></div>
+      </div>
+
+      <div class="quiz-footer">
+        <button class="button ghost" id="prevBtn">◀ Prev</button>
+        <div style="flex:1"></div>
+        <button class="button ghost" id="skipBtn">Skip</button>
+        <button class="button brand" id="nextBtn">Next ▶</button>
+        <button class="button brand hidden" id="submitBtn">Submit Quiz</button>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="card hidden">
+      <h2 style="margin:0 0 14px;">Your Results</h2>
+      <div class="results">
+        <div>
+          <div class="stats" style="margin-bottom:14px;">
+            <div class="stat"><div class="muted">Score</div><div class="big" id="scorePct">0%</div></div>
+            <div class="stat"><div class="muted">Correct</div><div class="big" id="scoreCorrect">0</div></div>
+            <div class="stat"><div class="muted">Incorrect</div><div class="big" id="scoreWrong">0</div></div>
+          </div>
+          <canvas id="resultChart" height="220"></canvas>
+        </div>
+        <div class="card" style="background: rgba(0,0,0,.15);">
+          <h3 style="margin-top:0;">Summary</h3>
+          <div class="muted" id="summaryText">—</div>
+          <div class="actions" style="margin-top:16px;">
+            <button class="button brand" id="retryBtn">Try Again</button>
+            <button class="button ghost" id="chooseBtn">Choose Another Quiz</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>© <span id="year"></span> Digital Library Quiz Forum. Built with HTML, CSS & JavaScript.</footer>
+  </div>
+
+  <script>
+    // ====== CONFIG ======
+    const QUIZ_DURATION_MINUTES = 30;  // 30 minutes per quiz
+    const TARGET_QUESTIONS = 30;        // We'll pick up to 30 from the bank
+
+    // Categories (the user asked for 5 — we add Databases as #5)
+    const CATEGORIES = [
+      { key: 'python', label: 'Python' },
+      { key: 'web', label: 'Web Development' },
+      { key: 'uiux', label: 'UI / UX' },
+      { key: 'fundamentals', label: 'Fundamentals of Programming' },
+      { key: 'db', label: 'Databases / SQL' },
+    ];
+
+    // ====== QUESTION BANKS ======
+    // NOTE: Each bank contains ~12–16 starter questions to keep this file manageable.
+    // The app automatically limits to 30 questions (TARGET_QUESTIONS). To reach the
+    // full 30, just append more objects to each array — no code changes needed.
+
+    const BANK = {
+      python: [
+        q('What is the correct file extension for Python files?', ['.py', '.python', '.pt', '.pyt'], 0),
+        q('Which of these is NOT a core Python data type?', ['list', 'tuple', 'set', 'record'], 3),
+        q('What does PEP stand for in Python community?', ['Python Enhancement Proposal', 'Python Effective Practices', 'Performance Evaluation Plan', 'Programming Education Project'], 0),
+        q('Which keyword is used to create a function in Python?', ['func', 'def', 'function', 'lambda'], 1),
+        q('What is the output of len({1,1,2})?', ['2', '3', '1', 'Error'], 0),
+        q('How do you start a virtual environment with venv (Unix)?', ['python -m venv env', 'pip install venv', 'venv start', 'make venv'], 0),
+        q('Which is used to handle exceptions?', ['try/except', 'catch/throw', 'guard/recover', 'handle/rescue'], 0),
+        q('What is a Python dictionary?', ['Ordered list of items', 'Key-value store', 'Immutable sequence', 'Binary file'], 1),
+        q('What is list comprehension?', ['A loop syntax for lists', 'A debug tool', 'A package manager', 'A file reader'], 0),
+        q('Which operator is for floor division?', ['/', '//', '%', '**'], 1),
+        q('What is the default value of end in print()', ['\n', 'space', 'none', '0'], 0),
+        q('How do you create a virtual environment (Windows)?', ['py -m venv venv', 'pip env create', 'python --venv', 'mkvenv'], 0),
+        q('Which statement creates a generator?', ['[x for x in range(3)]', '(x for x in range(3))', '{x for x in range(3)}', 'gen(range(3))'], 1),
+        q('What does the pass statement do?', ['Skips / placeholder', 'Stops loop', 'Raises error', 'Starts thread'], 0),
+        q('Which library is commonly used for HTTP requests?', ['urllib3', 'flask', 'requests', 'pytest'], 2),
+      ],
+      web: [
+        q('Which tag links an external CSS file?', ['<style>', '<css>', '<link>', '<script>'], 2),
+        q('Which HTML element is semantic?', ['<div>', '<span>', '<section>', '<b>'], 2),
+        q('Flexbox main axis is controlled by?', ['justify-content', 'align-items', 'flex-basis', 'gap'], 0),
+        q('Which HTTP method is idempotent?', ['POST', 'PUT', 'PATCH', 'GET'], 3),
+        q('What does CSS stand for?', ['Creative Style System', 'Cascading Style Sheets', 'Computer Style Syntax', 'Custom Style Sheets'], 1),
+        q('What does responsive design target?', ['Only desktop', 'Only mobile', 'Multiple screen sizes', 'Print only'], 2),
+        q('Which attribute is required for <img>?', ['alt', 'title', 'id', 'class'], 0),
+        q('Which tag loads JS at the end of body?', ['<import>', '<javascript>', '<script>', '<code>'], 2),
+        q('What does HTTP status 404 mean?', ['Unauthorized', 'Bad Request', 'Not Found', 'OK'], 2),
+        q('Which CSS unit is relative to root font size?', ['em', 'px', 'rem', 'vh'], 2),
+        q('What is the DOM?', ['Database', 'Document Object Model', 'Deployment Object Module', 'Design Oriented Model'], 1),
+        q('Which improves performance?', ['Render-blocking CSS', 'Minification', 'Massive images', 'Inline huge scripts'], 1),
+        q('What does SEO stand for?', ['Search Engine Optimization', 'Server Engine Output', 'Site Easy Onboarding', 'Semantic Engine Options'], 0),
+        q('Which meta improves mobile rendering?', ['<meta viewport>', '<meta device>', '<meta scale>', '<meta phone>'], 0),
+        q('Which protocol secures HTTP?', ['FTP', 'SSH', 'HTTPS', 'SMTP'], 2),
+      ],
+      uiux: [
+        q('UX primarily focuses on…', ['Visual style only', 'User’s overall experience', 'Brand logo design', 'Code performance'], 1),
+        q('UI primarily focuses on…', ['Interaction flow', 'Visual interface elements', 'Server speed', 'Database schemas'], 1),
+        q('A persona is…', ['A sample layout', 'An archetype of a user', 'A color system', 'A design token'], 1),
+        q('Wireframes are used to…', ['Test colors', 'Define layout/structure', 'Animate buttons', 'Store data'], 1),
+        q('Usability testing helps to…', ['Validate with users', 'Deploy code', 'Secure servers', 'Compress images'], 0),
+        q('Which heuristic is NOT Nielsen’s?', ['Visibility of system status', 'Recognition rather than recall', 'Aesthetic and minimalist design', 'Maximum monetization'], 3),
+        q('Accessibility abbreviation a11y means…', ['11 access points', 'Short for accessibility', 'Level 11 UX', 'None'], 1),
+        q('Color contrast is important for…', ['Performance', 'Readability & a11y', 'Branding only', 'SEO'], 1),
+        q('Information architecture deals with…', ['Server layout', 'Content organization', 'Code minification', 'Payment systems'], 1),
+        q('A design system includes…', ['Only logos', 'Components, patterns, tokens', 'Only CSS files', 'Only animations'], 1),
+        q('F-pattern & Z-pattern describe…', ['Gestures', 'Eye‑tracking reading patterns', 'Grid systems', 'Typography'], 1),
+        q('Primary CTA should be…', ['Hidden', 'Most prominent', 'Same as secondary', 'Text‑only'], 1),
+        q('Dark mode should consider…', ['Lower contrast', 'Higher contrast & color shifts', 'More shadows only', 'No change'], 1),
+        q('Microcopy refers to…', ['Big headings', 'Small helpful texts (labels, hints)', 'Copy‑paste content', 'Image captions only'], 1),
+        q('A/B testing compares…', ['Two design variants', 'Two databases', 'Two servers', 'Two CSS files only'], 0),
+      ],
+      fundamentals: [
+        q('An algorithm is…', ['A programming language', 'A step‑by‑step procedure', 'A code editor', 'A hardware device'], 1),
+        q('A variable is used to…', ['Store data', 'Compile code', 'Render UI', 'Transmit packets'], 0),
+        q('Which is NOT a programming paradigm?', ['Object‑oriented', 'Functional', 'Procedural', 'Tabular'], 3),
+        q('The CPU executes instructions in the…', ['ALU only', 'Control Unit only', 'Fetch‑Decode‑Execute cycle', 'I/O controller'], 2),
+        q('A bug is…', ['A feature request', 'An error/defect', 'A test case', 'An IDE'], 1),
+        q('Compilation turns…', ['Source to machine code', 'Data to info', 'Hardware to software', 'Binary to decimal'], 0),
+        q('Pseudocode is…', ['Executable code', 'Human‑readable steps', 'Binary file', 'Error log'], 1),
+        q('Which data structure is FIFO?', ['Stack', 'Queue', 'Tree', 'Graph'], 1),
+        q('Big‑O describes…', ['Actual time only', 'Asymptotic complexity', 'Space usage only', 'CPU brand'], 1),
+        q('A boolean holds…', ['Strings', 'True/False', 'Numbers', 'Arrays'], 1),
+        q('Which loop runs at least once in many languages?', ['for', 'while', 'do…while', 'foreach'], 2),
+        q('Version control example is…', ['Git', 'Node', 'Nginx', 'Vim'], 0),
+        q('Unit tests check…', ['Whole system', 'Small isolated pieces', 'Only UI', 'Only DB'], 1),
+        q('Abstraction means…', ['Hiding complexity', 'Adding complexity', 'Deleting code', 'Encrypting data'], 0),
+        q('Which is NOT an OS?', ['Linux', 'Windows', 'Python', 'macOS'], 2),
+      ],
+      db: [
+        q('SQL stands for…', ['Structured Query Language', 'Simple Question Logic', 'System Query Link', 'Sequential Query List'], 0),
+        q('Which is a primary key property?', ['Duplicates allowed', 'Can be NULL', 'Uniqueness', 'Must be text'], 2),
+        q('SELECT * FROM users WHERE age > 18; What does * mean?', ['All columns', 'All rows', 'Only first row', 'Count'], 0),
+        q('Which normal form removes repeating groups?', ['1NF', '2NF', '3NF', 'BCNF'], 0),
+        q('Which SQL clause sorts results?', ['GROUP BY', 'ORDER BY', 'WHERE', 'LIMIT'], 1),
+        q('A foreign key…', ['Uniquely identifies a row', 'References a primary key in another table', 'Sorts rows', 'Stores files'], 1),
+        q('Indexing typically…', ['Slows reads', 'Speeds reads', 'Disables joins', 'Deletes duplicates'], 1),
+        q('Which is a NoSQL database?', ['MySQL', 'PostgreSQL', 'MongoDB', 'SQLite'], 2),
+        q('SQL to count rows?', ['COUNT(*)', 'SUM(*)', 'LEN(*)', 'SIZE(*)'], 0),
+        q('ACID “A” stands for…', ['Automation', 'Atomicity', 'Accuracy', 'Access'], 1),
+        q('JOIN to get only matching rows in both tables?', ['LEFT', 'RIGHT', 'FULL', 'INNER'], 3),
+        q('Best type to store phone numbers?', ['INT', 'FLOAT', 'TEXT/VARCHAR', 'DECIMAL'], 2),
+        q('Command to add a column?', ['ALTER TABLE … ADD COLUMN', 'UPDATE TABLE … ADD', 'INSERT COLUMN …', 'CREATE COLUMN …'], 0),
+        q('To prevent SQL injection you should…', ['Concatenate strings', 'Use prepared/parameterized queries', 'Trust user input', 'Disable WHERE'], 1),
+        q('Which clause groups rows for aggregates?', ['ORDER BY', 'GROUP BY', 'HAVING', 'SELECT'], 1),
+      ],
+    };
+
+    function q(text, options, correctIndex){
+      return { text, options, answer: correctIndex };
+    }
+
+    // ====== STATE ======
+    let currentCategory = null;
+    let questions = [];
+    let index = 0;
+    let chosen = []; // user selections per index (number or null)
+    let timerId = null;
+    let timeLeft = QUIZ_DURATION_MINUTES * 60; // seconds
+
+    // ====== ELEMENTS ======
+    const landing = document.getElementById('landing');
+    const categorySelect = document.getElementById('categorySelect');
+    const quiz = document.getElementById('quiz');
+    const results = document.getElementById('results');
+
+    const startBtn = document.getElementById('startBtn');
+    const howBtn = document.getElementById('howBtn');
+
+    const categoryGrid = document.getElementById('categoryGrid');
+    const quizTitle = document.getElementById('quizTitle');
+    const timerEl = document.getElementById('timer');
+    const questionText = document.getElementById('questionText');
+    const optionsEl = document.getElementById('options');
+    const qPosition = document.getElementById('qPosition');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressBar = document.getElementById('progressBar');
+
+    const scorePct = document.getElementById('scorePct');
+    const scoreCorrect = document.getElementById('scoreCorrect');
+    const scoreWrong = document.getElementById('scoreWrong');
+    const summaryText = document.getElementById('summaryText');
+
+    const retryBtn = document.getElementById('retryBtn');
+    const chooseBtn = document.getElementById('chooseBtn');
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ====== UI HANDLERS ======
+    startBtn.addEventListener('click', () => {
+      landing.classList.add('hidden');
+      renderCategoryGrid();
+      categorySelect.classList.remove('hidden');
+    });
+
+    howBtn.addEventListener('click', () => {
+      alert('How it works:\n1) Click “Take a Quiz”\n2) Choose a category\n3) You get up to 30 questions with a 30‑minute countdown.\n4) Submit anytime or auto‑submit when time runs out.\n5) See your score + chart and retry or pick another quiz.');
+    });
+
+    function renderCategoryGrid(){
+      categoryGrid.innerHTML = '';
+      CATEGORIES.forEach(cat => {
+        const count = BANK[cat.key].length;
+        const el = document.createElement('div');
+        el.className = 'cat';
+        el.innerHTML = `
+          <div>
+            <div class="badge">${count} questions available</div>
+            <h3>${cat.label}</h3>
+          </div>
+          <button class="button brand" style="margin-top:8px;">Start</button>
+        `;
+        el.addEventListener('click', () => startQuiz(cat.key));
+        categoryGrid.appendChild(el);
+      });
+    }
+
+    function startQuiz(catKey){
+      currentCategory = catKey;
+      // Build question set: shuffle and take up to TARGET_QUESTIONS
+      questions = shuffle([...BANK[catKey]]).slice(0, TARGET_QUESTIONS);
+      index = 0;
+      chosen = new Array(questions.length).fill(null);
+      timeLeft = QUIZ_DURATION_MINUTES * 60;
+      quizTitle.textContent = CATEGORIES.find(c => c.key === catKey).label;
+      categorySelect.classList.add('hidden');
+      results.classList.add('hidden');
+      quiz.classList.remove('hidden');
+      updateTimerDisplay();
+      startTimer();
+      renderQA();
+      updateNavButtons();
+      updateProgress();
+    }
+
+    function renderQA(){
+      const q = questions[index];
+      qPosition.textContent = `Question ${index+1} of ${questions.length}`;
+      questionText.textContent = q.text;
+      optionsEl.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const id = `opt-${index}-${i}`;
+        const label = document.createElement('label');
+        label.className = 'option';
+        label.setAttribute('for', id);
+        label.innerHTML = `
+          <input type="radio" name="q${index}" id="${id}" ${chosen[index]===i? 'checked':''} />
+          <div>${escapeHtml(opt)}</div>
+        `;
+        label.addEventListener('click', (e) => {
+          // avoid toggling off when clicking already selected label
+          chosen[index] = i;
+          updateProgress();
+        });
+        optionsEl.appendChild(label);
+      });
+    }
+
+    function updateNavButtons(){
+      prevBtn.disabled = index === 0;
+      nextBtn.classList.remove('hidden');
+      submitBtn.classList.add('hidden');
+      if(index === questions.length - 1){
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+      }
+    }
+
+    function updateProgress(){
+      const answered = chosen.filter(v=>v!==null).length;
+      const pct = Math.round((answered / questions.length) * 100);
+      progressBar.style.width = pct + '%';
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if(index>0){ index--; renderQA(); updateNavButtons(); }
+    });
+    nextBtn.addEventListener('click', () => {
+      if(index < questions.length-1){ index++; renderQA(); updateNavButtons(); }
+    });
+    skipBtn.addEventListener('click', () => {
+      if(index < questions.length-1){ index++; renderQA(); updateNavButtons(); }
+    });
+
+    submitBtn.addEventListener('click', finishQuiz);
+
+    function startTimer(){
+      if(timerId) clearInterval(timerId);
+      timerId = setInterval(() => {
+        timeLeft--;
+        if(timeLeft <= 0){
+          clearInterval(timerId);
+          finishQuiz(true);
+        }
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay(){
+      const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+      const s = (timeLeft % 60).toString().padStart(2,'0');
+      timerEl.textContent = `${m}:${s}`;
+      if(timeLeft <= 60){ timerEl.style.color = 'var(--danger)'; }
+      else { timerEl.style.color = 'inherit'; }
+    }
+
+    function finishQuiz(auto=false){
+      clearInterval(timerId);
+      // compute score
+      const total = questions.length;
+      let correct = 0;
+      questions.forEach((q, i) => { if(chosen[i] === q.answer) correct++; });
+      const wrong = total - correct;
+      const pct = Math.round((correct/total) * 100);
+
+      // render results
+      scorePct.textContent = pct + '%';
+      scoreCorrect.textContent = correct;
+      scoreWrong.textContent = wrong;
+      summaryText.textContent = `${auto? '⏰ Time up! ' : ''}You answered ${correct} out of ${total} correctly in the ${CATEGORIES.find(c=>c.key===currentCategory).label} quiz.`;
+
+      // Show sections
+      quiz.classList.add('hidden');
+      results.classList.remove('hidden');
+
+      // chart
+      renderChart(correct, wrong);
+    }
+
+    function renderChart(correct, wrong){
+      const ctx = document.getElementById('resultChart').getContext('2d');
+      if(window._chart){ window._chart.destroy(); }
+      window._chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Correct', 'Incorrect'],
+          datasets: [{ data: [correct, wrong] }]
+        },
+        options: {
+          plugins: {
+            legend: { display: true },
+            tooltip: { enabled: true }
+          },
+          cutout: '55%',
+        }
+      });
+    }
+
+    retryBtn.addEventListener('click', () => startQuiz(currentCategory));
+    chooseBtn.addEventListener('click', () => {
+      results.classList.add('hidden');
+      renderCategoryGrid();
+      categorySelect.classList.remove('hidden');
+    });
+
+    // ====== UTIL ======
+    function shuffle(arr){
+      for(let i=arr.length-1; i>0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+    }
+  </script>
+</body>
+</html>
