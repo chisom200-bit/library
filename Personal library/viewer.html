@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>Read Document | Personal Knowledge Library</title>
+  <meta name="description" content="Read a document from the Personal Knowledge Library in your browser, or open and download the PDF.">
+  <meta name="theme-color" content="#0f2a4a">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Personal Knowledge Library">
+  <meta property="og:title" content="Read Document | Personal Knowledge Library">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body data-page="viewer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a class="logo" href="index.html" aria-label="Personal Knowledge Library, home">
+        <svg class="logo-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path d="M8 9.5c3-1 5.5-.8 8 1 2.5-1.8 5-2 8-1v13c-3-1-5.5-.8-8 1-2.5-1.8-5-2-8-1z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M16 10.5v13" stroke="#fff" stroke-width="1.6"/>
+        </svg>
+        <span class="logo-text">Personal <strong>Knowledge</strong> Library</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#library">Browse Documents</a></li>
+          <li><a href="index.html#categories">Categories</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li>
+            <a href="index.html#library" class="nav-search">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Search
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="viewer-main">
+    <div class="container">
+      <a class="back-link" href="index.html#library">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to library
+      </a>
+
+      <div id="viewer-content" hidden>
+        <header class="viewer-head">
+          <div class="viewer-titles">
+            <p class="eyebrow" id="viewer-category"></p>
+            <h1 id="viewer-title">Document</h1>
+            <p class="viewer-desc" id="viewer-desc"></p>
+            <p class="viewer-date">Published <time id="viewer-date"></time></p>
+          </div>
+          <div class="viewer-actions">
+            <a class="btn btn-primary" id="viewer-open" href="#" target="_blank" rel="noopener">Open in new tab</a>
+            <a class="btn btn-secondary" id="viewer-download" href="#" download>Download PDF</a>
+          </div>
+        </header>
+
+        <div class="viewer-frame">
+          <object id="viewer-object" type="application/pdf" data="" aria-label="PDF preview">
+            <div class="viewer-fallback">
+              <p><strong>Your browser can&rsquo;t preview PDFs here.</strong></p>
+              <p>No problem, you can still read the document using the buttons above.</p>
+            </div>
+          </object>
+        </div>
+        <p class="viewer-hint">Preview not loading on your phone? Use <strong>Open in new tab</strong> or <strong>Download PDF</strong> above.</p>
+      </div>
+
+      <div class="empty-state" id="viewer-missing" hidden>
+        <svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false"><path d="M12 6h18l8 8v28H12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M30 6v8h8M19 24l10 10M29 24L19 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <h2>Document not found</h2>
+        <p>That link doesn&rsquo;t match a document in the library. It may have been moved or renamed.</p>
+        <a class="btn btn-primary" href="index.html#library">Browse all documents</a>
+      </div>
+
+      <noscript><p class="inline-empty">The document viewer needs JavaScript. Please enable it, or return to the <a href="index.html#library">library</a>.</p></noscript>
+    </div>
+  </main>
+
+  <footer class="site-footer site-footer-slim">
+    <div class="container footer-bottom">
+      <p class="disclaimer">Documents are shared for educational and informational purposes only and are not professional advice.</p>
+      <p class="copyright">&copy; <span id="year">2026</span> Personal Knowledge Library. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

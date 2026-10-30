@@ -1,0 +1,119 @@
+# Personal Knowledge Library
+
+A static, public digital library for publishing PDFs: research, reflections, educational articles and knowledge-jotter entries. Built with plain HTML5, CSS3 and vanilla JavaScript. No frameworks, no backend, no database.
+
+## Folder structure
+
+```
+knowledge-library/
+├── index.html        Home page: hero, featured/latest, browse + search, categories, about, footer
+├── viewer.html       PDF viewing page (back, open in new tab, download)
+├── style.css         All styling
+├── script.js         Document list (DOCUMENTS array) + search, filters, sorting, navigation
+├── README.md
+├── assets/
+│   ├── favicon.svg
+│   ├── apple-touch-icon.png
+│   ├── og-image.png          Social share image (1200x630)
+│   └── covers/               Optional cover images for documents
+└── pdfs/                     Your PDF files live here
+    └── why-intelligent-people-sometimes-make-poor-decisions.pdf   (sample placeholder)
+```
+
+## Run it locally with VS Code + Live Server
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/).
+2. Open the **Extensions** panel (Ctrl+Shift+X) and install **Live Server** (by Ritwick Dey).
+3. Choose **File > Open Folder** and select the `knowledge-library` folder.
+4. Right-click `index.html` and choose **Open with Live Server** (or click **Go Live** in the bottom bar).
+5. Your browser opens at `http://127.0.0.1:5500/`. It refreshes automatically when you save.
+
+Why not just double-click `index.html`? The home page works that way, but some browsers restrict PDF previews and `fetch`-style features on `file://` addresses. Always test through Live Server (or any local server) so it behaves exactly like the hosted site.
+
+## Add a document
+
+1. Copy your PDF into `pdfs/`. Use a simple name: lowercase, hyphens, no spaces, e.g. `my-new-article.pdf`.
+2. (Optional) Add a cover image to `assets/covers/` (about 600x400 px; JPG, WebP or SVG; keep it under ~150 KB). Leave `coverImage: ''` to get an automatic cover.
+3. Open `script.js` and add an object to the `DOCUMENTS` array (a commented template is included):
+
+```js
+{
+  id: 'my-new-article',                 // unique, letters/numbers/hyphens
+  title: 'My New Article',
+  description: 'One to three sentences about the document.',
+  category: 'Technology',               // must match a name in CATEGORIES
+  date: '2026-11-05',                   // YYYY-MM-DD
+  filename: 'my-new-article.pdf',       // exact name inside pdfs/
+  coverImage: 'assets/covers/my-new-article.jpg',   // or ''
+  featured: false,                      // true = shows in the Featured block
+  tags: ['keyword one', 'keyword two']
+}
+```
+
+4. Put a comma between entries, save, and refresh. The card appears in the library, search, filters and (if it is newest or featured) the home page highlights. The Read PDF and Download PDF buttons are generated automatically.
+
+To replace the sample PDF, either overwrite the file with the same name or edit the sample entry. To remove the sample, delete its object and its PDF/cover.
+
+To change categories, edit the `CATEGORIES` array at the top of `script.js`.
+
+## Public access: no login needed
+
+Everything in the repository is served as static files, so anyone with the link can read and download the PDFs. Do not put private files in `pdfs/`: whatever is in the published folder is public.
+
+## Troubleshooting broken links
+
+| Symptom | Likely cause and fix |
+| --- | --- |
+| Read/Download gives a 404 | The `filename` in `script.js` does not exactly match the file in `pdfs/`. Matching is **case-sensitive** on GitHub Pages and Netlify (`My-File.pdf` is not `my-file.pdf`). Check spelling, extension (`.pdf`) and hidden double extensions (`file.pdf.pdf`). |
+| Works locally, breaks after deploying | Usually a case mismatch (Windows ignores case, servers do not). Rename files to lowercase and update the array. |
+| Card shows but cover is a coloured block | The `coverImage` path is wrong; the site falls back to an automatic cover on purpose. Check the path and case. |
+| New card does not appear | A syntax error in `script.js` (missing comma between entries, stray quote). Open the browser console (F12) to see the line. |
+| Viewer says "Document not found" | The `id` in the link does not match any entry. Do not change an `id` after sharing a link. |
+| PDF preview is blank on a phone | Many mobile browsers cannot embed PDFs. Use **Open in new tab** or **Download PDF**, which always work. |
+| Social preview image missing | `og:image` needs a full URL. Replace `YOUR-SITE-URL` in `index.html` after deploying. |
+| Styles or script not loading after deploy | Keep `style.css`, `script.js` and the folders in the same relative layout as above. Do not rename `assets/` or `pdfs/` without updating paths. |
+
+## Deploy to GitHub Pages
+
+1. Create a new public repository on GitHub (e.g. `knowledge-library`).
+2. Upload the **contents** of the project folder so `index.html` is at the repository root. With Git:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial library"
+   git branch -M main
+   git remote add origin https://github.com/YOUR-USERNAME/knowledge-library.git
+   git push -u origin main
+   ```
+3. In the repository go to **Settings > Pages**. Under **Build and deployment**, set **Source** to *Deploy from a branch*, choose `main` and `/ (root)`, then **Save**.
+4. After a minute your site is live at `https://YOUR-USERNAME.github.io/knowledge-library/`.
+5. Replace `YOUR-SITE-URL` in the Open Graph tags in `index.html` with that address and push again.
+
+To publish a new document later: add the PDF and the array entry, commit and push. The site updates automatically.
+
+Note: GitHub limits individual files to 100 MB and recommends repositories under 1 GB. For many large PDFs, consider compressing them.
+
+## Deploy to Netlify
+
+**Drag and drop (easiest):** sign in at [app.netlify.com](https://app.netlify.com), open **Sites**, and drag the whole project folder onto the "drag and drop" area. You get a public `*.netlify.app` URL immediately. To update, drag the folder onto the site's **Deploys** page again.
+
+**From GitHub (automatic updates):** choose **Add new site > Import an existing project**, connect the repository, leave the build command empty and set the publish directory to `/` (the root). Every push redeploys.
+
+You can rename the site or add a custom domain under **Site configuration > Domain management**.
+
+## Important: about uploads and "permanent" storage
+
+This is a static site. That has consequences worth understanding:
+
+- **Browser storage is not hosting.** `localStorage`, `sessionStorage` and IndexedDB live only inside one visitor's own browser. Files stored there are never visible to anyone else and can be cleared at any time. They cannot publish a PDF to the public.
+- **A page cannot write files to the server.** A button on the website cannot save a PDF into `pdfs/` for everyone. Publishing means adding the file to the project and redeploying (git push, or drag-and-drop on Netlify).
+- **An admin dashboard with direct upload needs a backend or external service.** If you later want to upload PDFs from a web form, you would need one of: a small server (Node/Express, PHP, etc.) that stores files and metadata; a storage service such as Supabase Storage, Firebase Storage, Cloudinary or Amazon S3 plus authentication; or a headless CMS such as Decap CMS (Netlify CMS) or Sanity that commits files to your repository for you. Any of these also requires securing the admin area with a login, which is outside the scope of this no-backend project.
+
+## Accessibility, performance and SEO notes
+
+- Semantic landmarks, skip link, keyboard-operable controls and visible focus rings.
+- Search results announce through a polite live region; hamburger menu closes with Escape.
+- `prefers-reduced-motion` disables animations and smooth scrolling.
+- Covers are lazy-loaded with explicit width/height; SVG covers stay tiny. Prefer WebP/JPG under ~150 KB for photos.
+- Title, meta description, Open Graph and Twitter tags, favicon and Apple touch icon are included. Edit `Your Name` and the contact email in `index.html`.
+- Search state is kept in the address (`?q=...&category=...&sort=...`) so filtered views can be shared.

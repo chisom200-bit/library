@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>Blog | Notes &amp; Essays | Personal Knowledge Library</title>
+  <meta name="description" content="Short essays and notes on learning, thinking, technology, faith and living well. Free to read, written to be finished in a few minutes.">
+  <meta name="theme-color" content="#0f2a4a">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Personal Knowledge Library">
+  <meta property="og:title" content="Blog | Notes & Essays | Personal Knowledge Library">
+  <meta property="og:description" content="Short essays and notes on learning, thinking, technology, faith and living well.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="posts.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="blog.js" defer></script>
+</head>
+<body data-page="blog">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a class="logo" href="index.html" aria-label="Personal Knowledge Library, home">
+        <svg class="logo-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path d="M8 9.5c3-1 5.5-.8 8 1 2.5-1.8 5-2 8-1v13c-3-1-5.5-.8-8 1-2.5-1.8-5-2-8-1z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M16 10.5v13" stroke="#fff" stroke-width="1.6"/>
+        </svg>
+        <span class="logo-text">Personal <strong>Knowledge</strong> Library</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#library">Browse Documents</a></li>
+          <li><a href="index.html#categories">Categories</a></li>
+          <li><a href="blog.html" aria-current="page">Blog</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li>
+            <a href="#posts" class="nav-search" data-focus-blog-search>
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Search
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="blog-hero" aria-labelledby="blog-title">
+      <div class="container blog-hero-grid">
+        <div class="blog-hero-copy">
+          <p class="eyebrow">The blog</p>
+          <h1 id="blog-title">Notes &amp; Essays on Learning, Thinking and Living Well</h1>
+          <p class="lead">Short, honest pieces you can finish in a few minutes: how to learn faster, think more clearly, grow in faith and understand the technology around us.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#posts">Read the latest</a>
+            <a class="btn btn-secondary" href="index.html#library">Browse PDF documents</a>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>Posts</dt><dd id="blog-stat-posts">0</dd></div>
+            <div><dt>Topics</dt><dd id="blog-stat-topics">0</dd></div>
+            <div><dt>Latest post</dt><dd id="blog-stat-latest">&mdash;</dd></div>
+          </dl>
+        </div>
+
+        <div class="blog-hero-art" aria-hidden="true">
+          <img class="art-main" src="assets/learn-faster-feynman-technique.svg" alt="" width="600" height="400">
+          <img class="art-mini art-mini-1" src="assets/write-to-think.svg" alt="" width="300" height="200">
+          <img class="art-mini art-mini-2" src="assets/five-questions-before-you-believe.svg" alt="" width="300" height="200">
+          <span class="art-chip art-chip-1">5-minute reads</span>
+          <span class="art-chip art-chip-2">Free forever</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section blog-section" id="posts" aria-labelledby="posts-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">All posts</p>
+          <h2 id="posts-title">Read, search and explore</h2>
+          <p>Search by word or tag, or pick a topic to narrow things down.</p>
+        </header>
+
+        <form class="toolbar" id="blog-form" role="search" aria-label="Search and filter blog posts" novalidate>
+          <div class="field field-search">
+            <label class="visually-hidden" for="blog-search">Search blog posts</label>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="blog-search" type="search" name="q" placeholder="Search posts, topics and tags…" autocomplete="off" enterkeyhint="search">
+          </div>
+          <div class="field field-sort">
+            <label for="blog-sort">Sort by</label>
+            <select id="blog-sort" name="sort">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-ghost" id="blog-clear">Clear filters</button>
+        </form>
+
+        <div class="chips" id="blog-chips" role="group" aria-label="Filter posts by category"></div>
+        <p class="results-status" id="blog-status" role="status" aria-live="polite"></p>
+
+        <div id="blog-feature"></div>
+        <div class="post-grid" id="blog-grid"></div>
+
+        <div class="empty-state" id="blog-empty" hidden>
+          <svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false"><path d="M12 6h18l8 8v28H12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M30 6v8h8M18 26h14M18 32h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <h3 id="blog-empty-title">No posts found</h3>
+          <p id="blog-empty-text">Try a different word or choose another category.</p>
+          <button type="button" class="btn btn-primary" id="blog-empty-clear">Clear filters</button>
+        </div>
+        <noscript><p class="inline-empty">The blog needs JavaScript to list posts. Please enable JavaScript in your browser.</p></noscript>
+      </div>
+    </section>
+
+    <section class="cta-band" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <div>
+          <h2 id="cta-title">Want something longer?</h2>
+          <p>The library holds in-depth research notes and reflections as free, downloadable PDFs.</p>
+        </div>
+        <a class="btn btn-light" href="index.html#library">Browse the library</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-slim">
+    <div class="container footer-bottom">
+      <p class="footer-links"><a href="index.html">Home</a> <span aria-hidden="true">&middot;</span> <a href="blog.html">Blog</a> <span aria-hidden="true">&middot;</span> <a href="write.html">Manage posts</a></p>
+      <p class="disclaimer">Posts are shared for educational and informational purposes only and are not professional advice.</p>
+      <p class="copyright">&copy; <span id="year">2026</span> Personal Knowledge Library. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var link = document.querySelector('[data-focus-blog-search]');
+      if (link) link.addEventListener('click', function () { setTimeout(function () { var i = document.getElementById('blog-search'); if (i) i.focus({ preventScroll: true }); }, 400); });
+    });
+  </script>
+</body>
+</html>

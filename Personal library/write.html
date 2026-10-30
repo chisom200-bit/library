@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <title>Blog Studio | Personal Knowledge Library</title>
+  <meta name="description" content="Write, upload, edit and remove blog posts, then download the updated posts.js file.">
+  <meta name="theme-color" content="#0f2a4a">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="posts.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="blog.js" defer></script>
+</head>
+<body data-page="write">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a class="logo" href="index.html" aria-label="Personal Knowledge Library, home">
+        <svg class="logo-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path d="M8 9.5c3-1 5.5-.8 8 1 2.5-1.8 5-2 8-1v13c-3-1-5.5-.8-8 1-2.5-1.8-5-2-8-1z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M16 10.5v13" stroke="#fff" stroke-width="1.6"/>
+        </svg>
+        <span class="logo-text">Personal <strong>Knowledge</strong> Library</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#library">Browse Documents</a></li>
+          <li><a href="index.html#categories">Categories</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="blog-main">
+    <div class="container">
+      <header class="studio-head">
+        <p class="eyebrow">Blog Studio</p>
+        <h1>Write, upload, edit and remove posts</h1>
+        <p class="lead">Fill in the form (or upload a write-up and a cover image) and your post appears on your blog straight away as a private preview.</p>
+      </header>
+
+      <div class="notice">
+        <p><strong>How publishing works.</strong> This is a static website, so a web page cannot store posts for every visitor by itself. Instead:</p>
+        <ol class="steps-inline">
+          <li>Add, edit, hide or remove posts below. Click <strong>Preview on blog</strong> to see them on your real blog pages (only you see this).</li>
+          <li>When you are happy, click <strong>Download posts.js</strong> and replace the file in your project folder.</li>
+          <li>Redeploy (git push, or drag the folder onto Netlify). The blog then updates for everyone.</li>
+        </ol>
+        <p>Your work-in-progress is kept in this browser only, so download before you switch devices or clear your browser data.</p>
+      </div>
+
+      <div class="notice notice-warn" id="banner" hidden>
+        <p><strong>You have unpublished changes.</strong> The list below differs from the posts currently in <code>posts.js</code>. Download the new file to publish them, or discard to start over.</p>
+      </div>
+
+      <section class="studio-block" aria-labelledby="list-title">
+        <div class="studio-row">
+          <h2 id="list-title">Your posts (<span id="manage-count">0</span>)</h2>
+          <div class="composer-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-preview">Preview on blog</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-download">Download posts.js</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btn-copy">Copy posts.js</button>
+            <button type="button" class="btn btn-ghost btn-sm btn-danger" id="btn-discard">Discard changes</button>
+          </div>
+        </div>
+        <ul class="manage-list" id="manage-list"></ul>
+      </section>
+
+      <section class="studio-block composer" aria-label="Post editor">
+        <form id="post-form" class="form-grid" novalidate>
+          <h2 id="form-heading">Write a new post</h2>
+
+          <div class="upload-box">
+            <div>
+              <strong>Have your write-up in a file?</strong>
+              <span>Upload a <code>.md</code> or <code>.txt</code> file and it fills in the title, text and excerpt for you. (For a Word document, copy and paste the text into the box below.)</span>
+            </div>
+            <input type="file" id="f-file" class="file-input" accept=".md,.markdown,.txt,text/plain,text/markdown">
+            <label for="f-file" class="btn btn-secondary btn-sm">Upload write-up</label>
+          </div>
+
+          <div class="form-row">
+            <label for="f-title">Title</label>
+            <input id="f-title" type="text" maxlength="120" autocomplete="off">
+          </div>
+          <div class="form-two">
+            <div class="form-row">
+              <label for="f-category">Category</label>
+              <select id="f-category"></select>
+            </div>
+            <div class="form-row">
+              <label for="f-date">Date</label>
+              <input id="f-date" type="date">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="f-excerpt">Short excerpt</label>
+            <textarea id="f-excerpt" class="short" rows="3" maxlength="300"></textarea>
+            <small>One or two sentences shown on post cards and in search results.</small>
+          </div>
+          <div class="form-row">
+            <label for="f-content">Post content</label>
+            <textarea id="f-content" rows="16" spellcheck="true"></textarea>
+            <small>Markdown: <code>## Heading</code>, <code>**bold**</code>, <code>*italic*</code>, <code>- bullet</code>, <code>1. number</code>, <code>&gt; quote</code>, <code>[text](https://link)</code>, <code>---</code> divider.</small>
+          </div>
+
+          <fieldset class="cover-fieldset">
+            <legend>Cover image</legend>
+            <div class="upload-row">
+              <input type="file" id="f-coverfile" class="file-input" accept="image/*">
+              <label for="f-coverfile" class="btn btn-secondary btn-sm">Upload cover image</label>
+              <span class="studio-help">JPG, PNG, WebP or SVG. It is compressed automatically and embedded in posts.js.</span>
+            </div>
+            <div class="cover-preview" id="cover-preview" hidden></div>
+            <div class="form-two">
+              <div class="form-row">
+                <label for="f-cover">Or use an image already in your project</label>
+                <input id="f-cover" type="text" list="cover-list" placeholder="assets/blog/my-post.jpg" autocomplete="off">
+                <datalist id="cover-list"></datalist>
+              </div>
+              <div class="form-row">
+                <label for="f-coveralt">Cover image description</label>
+                <input id="f-coveralt" type="text" placeholder="Describes the image for screen readers">
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-row">
+            <label for="f-tags">Tags</label>
+            <input id="f-tags" type="text" placeholder="learning, habits, focus">
+            <small>Separate with commas. Tags help readers find the post.</small>
+          </div>
+          <div class="form-row">
+            <label for="f-id">Post ID (used in the web address)</label>
+            <input id="f-id" type="text" autocomplete="off">
+            <small>Filled in for you. It cannot be changed once a post exists, so shared links keep working.</small>
+          </div>
+          <div class="check-row">
+            <label><input type="checkbox" id="f-featured"> Featured post</label>
+            <label><input type="checkbox" id="f-draft"> Draft (hide from the site)</label>
+          </div>
+          <div class="composer-actions">
+            <button class="btn btn-primary" type="submit" id="btn-save">Add post</button>
+            <button class="btn btn-ghost" type="button" id="btn-new">New post</button>
+          </div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="composer-preview">
+          <h2>Live preview</h2>
+          <div class="preview-box prose" id="preview" aria-live="off"></div>
+        </div>
+      </section>
+
+      <section class="studio-block" aria-labelledby="set-title">
+        <h2 id="set-title">Blog settings</h2>
+        <p class="studio-help">These are saved into <code>posts.js</code> when you download it.</p>
+        <div class="form-two settings-grid">
+          <div class="form-row">
+            <label for="f-author">Author name (shown on posts)</label>
+            <input id="f-author" type="text" autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="c-provider">Comments under posts</label>
+            <select id="c-provider">
+              <option value="local">Browser-only comments (works now, visible only on the commenter's device)</option>
+              <option value="giscus">Shared public comments with Giscus (free, needs setup)</option>
+              <option value="off">No comments</option>
+            </select>
+          </div>
+        </div>
+        <div id="giscus-fields" hidden>
+          <div class="notice">
+            <p><strong>Giscus setup (about 5 minutes).</strong> Giscus stores comments in your GitHub repository&rsquo;s Discussions, so every visitor sees them and you can moderate them on GitHub. Make the repository public, turn on Discussions, install the <a href="https://github.com/apps/giscus" target="_blank" rel="noopener noreferrer">Giscus app</a> on it, then enter your repository at <a href="https://giscus.app" target="_blank" rel="noopener noreferrer">giscus.app</a> and copy the four values it shows into the boxes below.</p>
+          </div>
+          <div class="form-two">
+            <div class="form-row"><label for="c-repo">Repository (owner/name)</label><input id="c-repo" type="text" placeholder="yourname/knowledge-library" autocomplete="off"></div>
+            <div class="form-row"><label for="c-repoid">Repository ID</label><input id="c-repoid" type="text" placeholder="R_kgDO..." autocomplete="off"></div>
+            <div class="form-row"><label for="c-category">Discussion category</label><input id="c-category" type="text" placeholder="General" autocomplete="off"></div>
+            <div class="form-row"><label for="c-categoryid">Category ID</label><input id="c-categoryid" type="text" placeholder="DIC_kwDO..." autocomplete="off"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="studio-block" aria-labelledby="out-title">
+        <h2 id="out-title">Your posts.js file</h2>
+        <p class="studio-help">This is exactly what will be saved when you download. <span id="file-size" class="size-note"></span></p>
+        <label class="visually-hidden" for="file-output">Generated posts.js content</label>
+        <textarea class="output-box" id="file-output" readonly rows="12" spellcheck="false"></textarea>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer site-footer-slim">
+    <div class="container footer-bottom">
+      <p class="footer-links"><a href="index.html">Home</a> <span aria-hidden="true">&middot;</span> <a href="blog.html">Blog</a></p>
+      <p class="copyright">&copy; <span id="year">2026</span> Personal Knowledge Library. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
